@@ -1,0 +1,15 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Notifications (SSE)</title>
+</head>
+<body>
+<h1>알림 인박스 (SSE)</h1>
+<p>이 페이지는 SSE로 알림을 수신합니다.</p>
+
+<pre id="log"></pre>
+
+<script th:src="@{/js/notifications-sse.js}"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin Console (WS)</title>
+</head>
+<body>
+<h1>관리자 발송 콘솔 (WebSocket)</h1>
+
+<section>
+    <h2>전체 발송</h2>
+    <input id="bTitle" placeholder="title"/>
+    <input id="bBody" placeholder="body"/>
+    <button id="broadcastBtn">Broadcast</button>
+</section>
+
+<section>
+    <h2>유저 지정 발송</h2>
+    <input id="tUser" placeholder="target username (e.g., user1)"/>
+    <input id="tTitle" placeholder="title"/>
+    <input id="tBody" placeholder="body"/>
+    <button id="targetBtn">Send To User</button>
+</section>
+
+<pre id="log"></pre>
+
+<!-- 라이브러리 -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<!-- 프로젝트 스크립트 -->
+<script th:src="@{/js/admin-console.js}"></script>
+</body>
+</html>
