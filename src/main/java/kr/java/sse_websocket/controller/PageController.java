@@ -8,7 +8,7 @@ public class PageController {
 
     @GetMapping("/admin")
     public String admin() {
-        return "admin.html";
+        return "admin";
     }
 
     @GetMapping("/chat")

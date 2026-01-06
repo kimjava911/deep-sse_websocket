@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 // (학습용) 우선 단순하게. 이후 CSRF/CORS는 SSE/WS/REST 붙이면서 정리
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/","/login", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/notifications/**", "/chat/**", "/sse/**", "/api/**").authenticated()
                         .anyRequest().permitAll()
@@ -37,7 +37,7 @@ public class SecurityConfig {
      */
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        UserDetails admin = User.withUsername("admin.html")
+        UserDetails admin = User.withUsername("admin")
                 .password(encoder.encode("admin1234"))
                 .roles("ADMIN")
                 .build();
