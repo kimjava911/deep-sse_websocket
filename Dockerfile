@@ -1,35 +1,27 @@
-# Stage 1: Gradle로 WAR 파일 빌드
-FROM gradle:jdk17 AS build
+# Stage 1: Build
+FROM azul/zulu-openjdk:17-latest AS build
 WORKDIR /app
 
-# Gradle Wrapper 파일 복사
+# 그래들 파일 복사 및 의존성 캐싱
 COPY gradlew .
-COPY gradle ./gradle
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+RUN chmod +x ./gradlew
 
-# Gradle 빌드 설정 복사
-COPY build.gradle .
-COPY settings.gradle .
+# 소스 코드 복사 및 빌드
+COPY src src
+RUN ./gradlew build -x test
 
-# 소스 코드 복사
-COPY src ./src
+# Stage 2: Runtime
+FROM azul/zulu-openjdk:17-latest
+WORKDIR /app
 
-# gradlew에 실행 권한을 주고, WAR 파일 빌드
-RUN chmod +x ./gradlew && ./gradlew bootWar --no-daemon
+# 빌드 스테이지에서 JAR 파일만 복사
+COPY --from=build /app/build/libs/*.jar app.jar
 
-# Stage 2: Tomcat 10 이미지를 사용하여 애플리케이션 배포
-FROM tomcat:10-jre17-temurin
-
-# Tomcat 기본 웹 애플리케이션 삭제
-RUN rm -rf /usr/local/tomcat/webapps/*
-
-# 빌드한 WAR 파일을 Tomcat의 webapps 디렉토리에 복사 (ROOT로 배포)
-COPY --from=build /app/build/libs/*.war /usr/local/tomcat/webapps/ROOT.war
-
-# 애플리케이션이 사용하는 포트 노출
 EXPOSE 8080
 
 # Spring 프로필을 'prod'로 설정
 ENV SPRING_PROFILES_ACTIVE=prod
 
-# Tomcat 기본 명령어 사용
-CMD ["catalina.sh", "run"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
