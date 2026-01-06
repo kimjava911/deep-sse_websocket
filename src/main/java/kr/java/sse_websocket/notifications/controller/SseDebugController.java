@@ -1,5 +1,6 @@
-package kr.java.sse_websocket.notifications;
+package kr.java.sse_websocket.notifications.controller;
 
+import kr.java.sse_websocket.notifications.utils.SseEmitterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

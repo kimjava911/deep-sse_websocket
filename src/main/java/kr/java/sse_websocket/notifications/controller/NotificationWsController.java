@@ -1,6 +1,8 @@
-package kr.java.sse_websocket.notifications;
+package kr.java.sse_websocket.notifications.controller;
 
 
+import kr.java.sse_websocket.notifications.domain.NotificationMessage;
+import kr.java.sse_websocket.notifications.service.NotificationService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;

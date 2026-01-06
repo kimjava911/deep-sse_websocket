@@ -37,6 +37,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                // API POST(읽음 처리 등) 403 해결용
+                                "/api/**",
+                                // SockJS/WS는 환경에 따라 CSRF에 걸릴 수 있어(학습 단계) 제외 권장
+                                "/ws/**",
+                                // SSE 엔드포인트(일반적으로 GET이라 CSRF 영향 적지만, 학습 단계에서는 같이 제외해도 무방)
+                                "/sse/**"
+                        )
+                )
                 // (개발 편의) 정적 리소스와 로그인 페이지는 누구나 접근 가능
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(

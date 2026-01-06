@@ -1,4 +1,4 @@
-package kr.java.sse_websocket.notifications;
+package kr.java.sse_websocket.notifications.utils;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +7,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * STEP 02
  * SSE 연결을 사용자 단위로 관리하는 레지스트리.
  *
  * 설계 의도:
@@ -21,12 +23,25 @@ import java.util.concurrent.ConcurrentHashMap;
  * - 추후 DB User 엔티티의 id 등을 키로 바꾸는 것이 일반적
  */
 
+/**
+ * STEP 03
+ * SSE 연결을 username 기준으로 관리.
+ *
+ * 핵심:
+ * - 키 불일치 방지를 위해 username을 정규화(trim + lowercase)한다.
+ * - sendTo 결과(boolean)를 통해 "현재 실시간 전달 성공 여부"를 판단할 수 있다.
+ */
 @Slf4j
 @Component
 public class SseEmitterRegistry {
 
     // username(normalized) -> SseEmitter
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+
+    /**
+     * username 정규화.
+     * - 입력/Principal/조회 모두 동일 규칙을 적용해야 타겟 발송이 안정적이다.
+     */
 
     // username을 저장/조회에 쓰기 전에 항상 같은 규칙으로 정규화한다.
     private String key(String username) {
@@ -108,5 +123,14 @@ public class SseEmitterRegistry {
     // 디버그를 위해 현재 활성 username 목록을 노출(아래 DebugController에서 사용)
     public Map<String, SseEmitter> snapshot() {
         return Map.copyOf(emitters);
+    }
+
+
+    /**
+     * 현재 SSE 연결 중인 사용자 목록(정규화된 username).
+     * - unreadCount push 등을 위해 사용
+     */
+    public Set<String> activeUsernames() {
+        return Set.copyOf(emitters.keySet());
     }
 }

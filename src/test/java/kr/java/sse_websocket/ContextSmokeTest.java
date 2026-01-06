@@ -1,8 +1,8 @@
 package kr.java.sse_websocket;
 
 
-import kr.java.sse_websocket.notifications.NotificationSseController;
-import kr.java.sse_websocket.notifications.NotificationWsController;
+import kr.java.sse_websocket.notifications.controller.NotificationSseController;
+import kr.java.sse_websocket.notifications.controller.NotificationWsController;
 import kr.java.sse_websocket.ws.EchoWsController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
