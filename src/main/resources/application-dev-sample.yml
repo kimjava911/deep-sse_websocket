@@ -1,0 +1,31 @@
+spring:
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-{}.aivencloud.com:{}/defaultdb?ssl-mode=REQUIRED
+    username: avnadmin
+    password: AVNS_
+
+  thymeleaf:
+    cache: false  # 개발 편의(실습 중 템플릿 변경 즉시 반영)
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # 실습/데모용. 운영은 validate 또는 none 권장
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false  # 실무 습관(WS/SSE에서 지연로딩 이슈 줄임)
+
+  data:
+    redis:
+      # https://aiven.io/
+      url: rediss://...
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.web.socket: INFO
+    org.springframework.messaging: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE

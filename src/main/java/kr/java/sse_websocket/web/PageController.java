@@ -24,10 +24,10 @@ public class PageController {
     /**
      * WS Echo 구동 체크 페이지
      */
-    @GetMapping("/chat")
-    public String chat() {
-        return "chat";
-    }
+//    @GetMapping("/chat")
+//    public String chat() {
+//        return "chat";
+//    }
 
     /**
      * USER 알림 인박스(SSE 수신) 페이지

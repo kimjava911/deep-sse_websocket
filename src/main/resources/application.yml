@@ -12,3 +12,8 @@ spring:
     hibernate:
       ddl-auto: none   # 운영 환경
     open-in-view: false  # 실무 습관(WS/SSE에서 지연로딩 이슈 줄임)
+
+chat:
+  redis:
+    enabled: true
+    recent-cache-size: 100

@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static kr.java.sse_websocket.common.UsernameNormalizer.normalize;
+
 /**
  * 알림 조회/읽음/카운트 API.
  *
@@ -126,9 +128,5 @@ public class NotificationApiController {
         String username = normalize(principal.getName());
         long count = notificationRepository.countUnreadForUser(username);
         return Map.of("count", count);
-    }
-
-    private String normalize(String username) {
-        return username == null ? null : username.trim().toLowerCase();
     }
 }
