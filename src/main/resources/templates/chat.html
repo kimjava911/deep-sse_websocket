@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Chat WS Test</title>
+</head>
+<body>
+<h1>WebSocket 구동 체크</h1>
+
+<div>
+    <input id="msg" placeholder="message"/>
+    <button id="sendBtn">Send</button>
+</div>
+
+<pre id="log"></pre>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<script>
+    const log = (s) => {
+        document.getElementById('log').textContent += s + "\n";
+    };
+
+    const socket = new SockJS('/ws');
+    const stomp = Stomp.over(socket);
+    stomp.debug = null;
+
+    stomp.connect({}, () => {
+        log("connected");
+        stomp.subscribe('/topic/echo', (frame) => {
+            log("recv: " + frame.body);
+        });
+    }, (err) => {
+        log("connect error: " + err);
+    });
+
+    document.getElementById('sendBtn').addEventListener('click', () => {
+        const msg = document.getElementById('msg').value;
+        stomp.send('/app/echo', {}, JSON.stringify({message: msg}));
+        log("sent: " + msg);
+    });
+</script>
+</body>
+</html>

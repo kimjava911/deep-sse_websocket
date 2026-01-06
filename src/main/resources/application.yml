@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: 260107_sse-websocket
+
+  profiles:
+    active: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: none   # 운영 환경
+    open-in-view: false  # 실무 습관(WS/SSE에서 지연로딩 이슈 줄임)
